@@ -1,32 +1,49 @@
 import React, {Component} from 'react';
-import './randomChar.css';
+
+import styled from 'styled-components';
 
 export default class RandomChar extends Component {
 
     render() {
 
+        const RandomBlock = styled.div`
+        background-color: #fff;
+        padding: 25px 25px 15px 25px;
+        margin-bottom: 40px;
+        `;
+
+        const RandomBlockTitle = styled.h4`
+        margin-bottom: 20px;
+        text-align: center;
+        `;
+
+        const ItemName = styled.span`
+        font-weight: bold;
+        `
+
+
         return (
-            <div className="random-block rounded">
-                <h4>Random Character: John</h4>
+            <RandomBlock className="rounded">
+                <RandomBlockTitle>Random Character: John</RandomBlockTitle>
                 <ul className="list-group list-group-flush">
                     <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Gender </span>
+                        <ItemName >Gender </ItemName>
                         <span>male</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Born </span>
+                        <ItemName >Born </ItemName>
                         <span>11.03.1039</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Died </span>
+                        <ItemName >Died </ItemName>
                         <span>13.09.1089</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Culture </span>
+                        <ItemName >Culture </ItemName>
                         <span>Anarchy</span>
                     </li>
                 </ul>
-            </div>
+            </RandomBlock>
         );
     }
 }

@@ -26,6 +26,26 @@ const HeaderLinks = styled.ul`
     }
 `;
 
+const HeaderLink = styled.a`
+position: relative;
+    :after{
+        content:'';
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background-color: #fff;
+        transition: .5s;
+    }
+    :hover:after{
+        left: 0;
+        width: 100%;
+    }
+
+`
+
 const Header = () => {
     return (
         <HeaderBlock>
@@ -36,13 +56,13 @@ const Header = () => {
             </HeaderTitle>
             <HeaderLinks>
                 <li>
-                    <a href="#">Characters</a>
+                    <HeaderLink href="#">Characters</HeaderLink>
                 </li>
                 <li>
-                    <a href="#">Houses</a>
+                    <HeaderLink href="#">Houses</HeaderLink>
                 </li>
                 <li>
-                    <a href="#">Books</a>   
+                    <HeaderLink href="#">Books</HeaderLink>   
                 </li>
             </HeaderLinks>
         </HeaderBlock>
