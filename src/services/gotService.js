@@ -13,31 +13,63 @@ export default class GotService {
         return await res.json();
     }
 
-    getAllCharacters(){
-       return this.getData(`${this._baseUrl}/characters?page5`)
+    async getAllCharacters(){
+       const all = await this.getData(`/characters?page5`);
+       return all.map(this._trasformData)
 
     }
-    getCharacter(id){
-        return this.getData(`${this._baseUrl}/characters/${id}`)
+    async getCharacter(id){
+        const char = await this.getData(`/characters/${id}`);
+        return this._trasformData(char);
 
     }
 
      getAllBooks(){
-        return this.getData(`${this._baseUrl}/books`)
+        return this.getData(`/books`)
  
     }
      getBook(id){
-         return this.getData(`${this._baseUrl}/books/${id}`)
+         return this.getData(`/books/${id}`)
  
     }
 
     getAllHouses(){
-        return this.getData(`${this._baseUrl}/houses`)
+        return this.getData(`/houses`)
  
     }
      getHouse(id){
-         return this.getData(`${this._baseUrl}/houses/${id}`)
+         return this.getData(`/houses/${id}`)
  
+    }
+
+    _trasformData(char){
+        return {
+            name: char.name,
+            gender: char.gender,
+            born: char.born,
+            died: char.died,
+            culture: char.culture
+        }
+    }
+
+    _transformHouse(house){
+        return {
+            name: house.name,
+            region: house.region,
+            words: house.words,
+            titles: house.titles,
+            overlord: house.overlord,
+            ancestralWeapons: house.ancestralWeapons
+        }
+    }
+
+    _transformBook(book){
+        return {
+            name: book.name,
+            numberOfPages: book.numberOfPages,
+            publiser: book.publiser,
+            released: book.released
+        }
     }
 
 
