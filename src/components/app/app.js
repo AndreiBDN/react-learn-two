@@ -2,11 +2,28 @@ import React, {Component} from 'react';
 import {Col, Row, Container} from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
-import CharacterPage from '../characterPage';
+
 import styled from 'styled-components';
+
+import CharacterPage from '../pages/characterPage';
+import BooksPage from '../pages/booksPage';
+import HousesPage from '../pages/housesPage';
+
+import BookItem from '../pages/bookItem';
+
+import {BrowserRouter as Router, Route} from 'react-router-dom';
+
+import GotService from '../../services/gotService';
+// import ItemList from '../itemList';
+// import CharDetails from '../charDetails';
+
+
+
 
 
 export default class App extends Component{
+
+    getData = new GotService();
 
     constructor(){
         super();
@@ -47,10 +64,25 @@ export default class App extends Component{
             padding: 1rem;
             margin-bottom: 2rem;
         `
+        // const itemList = (
+        //     <Col md='6'>
+        //         <ItemList
+        //         onCharSelected={this.onCharSelected}
+        //         itemData={this.getData.getAllBooks}
+        //         renderItem={(item) => `${item.name} (id: ${item.id})`} />
+        //     </Col>
+        // )
+        // const charDetail = (
+        //     <Col md='6'>
+        //         <CharDetails
+        //         itemId={this.state.selectedChar} />
+        //     </Col>
+        // )
     
 
         return (
-            <> 
+            <Router>
+                <> 
                 <Container>
                     <Header />
                 </Container>
@@ -64,9 +96,22 @@ export default class App extends Component{
                             {showrandomChar}
                         </Col>
                     </Row>
-                   <CharacterPage />
+                    <Route path='/characters' component={CharacterPage} />
+                    <Route path='/books' exact component={BooksPage} />
+                    <Route path='/houses' component={HousesPage} />
+                    <Route path='/books/:id' render={
+                        ({match}) => { 
+                            const {id} = match.params;
+                            return <BookItem 
+                                bookId={id}
+                            />}
+                    } />
+
+
+
                 </Container>
             </>
+            </Router>
         );
     }
 };

@@ -27,21 +27,29 @@ export default class GotService {
     }
 
 
-     getAllBooks(){
-        return this.getData(`/books`)
+     getAllBooks = async () => {
+         const all = await this.getData(`/books`);
+        return all.map((item) => this._transformBook(item));
  
     }
-     getBook(id){
-         return this.getData(`/books/${id}`)
+     getBook = async (id) => {
+         const book = await this.getData(`/books/${id}`);
+
+         return this._transformBook(book)
  
     }
 
-    getAllHouses(){
-        return this.getData(`/houses`)
+    getAllHouses = async () => {
+
+        const all = await this.getData(`/houses`);
+
+        return all.map((item) => this._transformHouse(item))
  
     }
-     getHouse(id){
-         return this.getData(`/houses/${id}`)
+     getHouse = async (id) => {
+
+        const house = await this.getData(`/houses/${id}`);
+         return this._transformHouse(house)
  
     }
 
@@ -57,7 +65,6 @@ export default class GotService {
         const idRegExp = /\/([0-9]*)$/;
         return item.url.match(idRegExp)[1];
     }
-
     _trasformData(char){
         return {
             id: this._extractId(char),
@@ -71,6 +78,7 @@ export default class GotService {
 
     _transformHouse(house){
         return {
+            id: this._extractId(house),
             name: house.name,
             region: house.region,
             words: house.words,
@@ -82,9 +90,10 @@ export default class GotService {
 
     _transformBook(book){
         return {
+            id: this._extractId(book),
             name: book.name,
             numberOfPages: book.numberOfPages,
-            publiser: book.publiser,
+            publisher: book.publisher,
             released: book.released
         }
     }

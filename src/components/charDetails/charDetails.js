@@ -1,25 +1,34 @@
 import React, {Component} from 'react';
 import './charDetails.css';
-import GotService from '../../services/gotService';
 import styled from 'styled-components';
+
+const Field = ({item, field, label}) => {
+    return(
+        <li className="list-group-item d-flex justify-content-between">
+            <span className="term">{label}</span>
+            <span>{item[field]}</span>
+        </li>
+    )
+}
+
+export {Field}
 export default class CharDetails extends Component {
 
-    getData = new GotService();
 
     state = {
-        char: null
+        item: null
     }
 
     updateChar() {
-        const {charId} = this.props
+        const {itemId, gData} = this.props
 
-        if(!charId){
+        if(!itemId){
             return
         }
 
-        this.getData.getCharacter(charId)
-            .then((char) => {
-                this.setState({char})
+        gData(itemId)
+            .then((item) => {
+                this.setState({item})
             })
     }
 
@@ -27,7 +36,7 @@ export default class CharDetails extends Component {
         this.updateChar();
     }
     componentDidUpdate(prevProps){
-        if(this.props.charId !== prevProps){
+        if(this.props.itemId !== prevProps){
             this.updateChar()
         }
     }
@@ -39,31 +48,22 @@ export default class CharDetails extends Component {
             font-size: 20px;
         `
 
-        if(!this.state.char){
+        if(!this.state.item){
             return <ErrSpan>Please select character</ErrSpan>
         }
 
-        const {name, gender, born, died, culture} = this.state.char;
+        const {item} = this.state
+
+        const {name} = item;
         return (
             <div className="char-details rounded">
                 <h4>{name}</h4>
                 <ul className="list-group list-group-flush">
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Gender</span>
-                        <span>{gender}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Born</span>
-                        <span>{born}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Died</span>
-                        <span>{died}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Culture</span>
-                        <span>{culture}</span>
-                    </li>
+                    {
+                        React.Children.map(this.props.children, (child) => {
+                            return React.cloneElement(child, {item})
+                        })
+                    }
                 </ul>
             </div>
         );

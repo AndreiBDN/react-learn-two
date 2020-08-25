@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import {Link} from 'react-router-dom';
 
 const HeaderBlock = styled.div`
     display: flex;
@@ -28,6 +29,7 @@ const HeaderLinks = styled.ul`
 
 const HeaderLink = styled.a`
 position: relative;
+margin: 0 1rem;
     :after{
         content:'';
         display: block;
@@ -50,20 +52,20 @@ const Header = () => {
     return (
         <HeaderBlock>
             <HeaderTitle>
-                <a href="#">
+                <Link to="/">
                 Game of Thrones DB
-                </a>
+                </Link>
             </HeaderTitle>
             <HeaderLinks>
-                <li>
-                    <HeaderLink href="#">Characters</HeaderLink>
-                </li>
-                <li>
-                    <HeaderLink href="#">Houses</HeaderLink>
-                </li>
-                <li>
-                    <HeaderLink href="#">Books</HeaderLink>   
-                </li>
+                <HeaderLink>
+                    <Link to="/characters">Characters</Link>
+                </HeaderLink>
+                <HeaderLink>
+                    <Link to="/houses">Houses</Link>
+                </HeaderLink>
+                <HeaderLink>
+                    <Link to="/books">Books</Link>   
+                </HeaderLink>
             </HeaderLinks>
         </HeaderBlock>
     );
