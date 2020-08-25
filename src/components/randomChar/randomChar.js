@@ -13,11 +13,17 @@ export default class RandomChar extends Component {
             loading: true,
             error: false
         }
+    }
 
-        setInterval(()=>{
+    componentDidMount(){
+        this.interval = setInterval(()=>{
             this.changeChar();
         }, 5000)
         this.changeChar();
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval)
     }
 
     getData = new GotService();
@@ -68,6 +74,8 @@ export default class RandomChar extends Component {
 
 const View = ({char}) => {
 
+    
+
     const {name, gender, born, died, culture} = char;
     const RandomBlockTitle = styled.h4`
         margin-bottom: 20px;
@@ -79,6 +87,7 @@ const View = ({char}) => {
         `
     return (
         <>
+           
          <RandomBlockTitle>Random Character: {name}</RandomBlockTitle>
                 <ul className="list-group list-group-flush">
                     <li className="list-group-item d-flex justify-content-between">

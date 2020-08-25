@@ -13,16 +13,19 @@ export default class GotService {
         return await res.json();
     }
 
-    async getAllCharacters(){
-       const all = await this.getData(`/characters?page5`);
-       return all.map(this._trasformData)
+    getAllCharacters = async () => {
+       const all = await this.getData(`/characters?page=10&pageSize=15`);
+       return all.map((item) => this._trasformData(item));
 
     }
-    async getCharacter(id){
+    getCharacter = async (id) => {
         const char = await this.getData(`/characters/${id}`);
-        return this._trasformData(char);
 
+        return (
+            this._trasformData(char)
+        )
     }
+
 
      getAllBooks(){
         return this.getData(`/books`)
@@ -42,14 +45,28 @@ export default class GotService {
  
     }
 
+    isSet(data) {
+        if (data) {
+            return data
+        } else {
+            return 'no data :('
+        }
+    }
+
+    _extractId = (item) => {
+        const idRegExp = /\/([0-9]*)$/;
+        return item.url.match(idRegExp)[1];
+    }
+
     _trasformData(char){
         return {
-            name: char.name,
-            gender: char.gender,
-            born: char.born,
-            died: char.died,
-            culture: char.culture
-        }
+            id: this._extractId(char),
+            name: this.isSet(char.name),
+            gender: this.isSet(char.gender),
+            born: this.isSet(char.born),
+            died: this.isSet(char.died), 
+            culture: this.isSet(char.culture)
+        };
     }
 
     _transformHouse(house){

@@ -1,34 +1,75 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {Col, Row, Container} from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
-import ItemList from '../itemList';
-import CharDetails from '../charDetails';
+import CharacterPage from '../characterPage';
+import styled from 'styled-components';
 
 
-const App = () => {
-    return (
-        <> 
-            <Container>
-                <Header />
-            </Container>
-            <Container>
-                <Row>
-                    <Col lg={{size: 5, offset: 0}}>
-                        <RandomChar/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md='6'>
-                        <ItemList />
-                    </Col>
-                    <Col md='6'>
-                        <CharDetails />
-                    </Col>
-                </Row>
-            </Container>
-        </>
-    );
+export default class App extends Component{
+
+    constructor(){
+        super();
+
+        this.state={
+            close: false,
+        }
+    }
+
+    onClickClose = () => {
+           return(
+            this.setState({
+                close : !this.state.close
+            })
+
+           )
+    
+    }
+
+ 
+    render(){
+
+        const {close} = this.state;
+
+       
+        const closeChar = 'Close random character';
+        const showChar = 'Show random character';
+
+        const toggleButtonName = close ? closeChar : showChar;
+        let showrandomChar = close ? <RandomChar/> : null
+
+
+        const CloseButton = styled.button`
+            border: none;
+            background-color: #fff;
+            border-radius: 5px;
+            color: #333333;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        `
+    
+
+        return (
+            <> 
+                <Container>
+                    <Header />
+                </Container>
+                <Container>
+                    <Row>
+                        <Col lg={{size: 5, offset: 0}}>
+                        <CloseButton 
+                            onClick={this.onClickClose}
+                        >{toggleButtonName}
+                        </CloseButton>
+                            {showrandomChar}
+                        </Col>
+                    </Row>
+                   <CharacterPage />
+                </Container>
+            </>
+        );
+    }
 };
 
-export default App;
+
+
